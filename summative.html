@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			BODY {
+				background-color: #87CEFA;
+			}
+			BUTTON {
+				background-color: #20B2AA;
+				border-color: #008B8B;
+				padding: 5px;
+				border-radius: 10px;
+			}
+			.div_1 {
+				background-color: #00BFFF;
+				min-height: 150px;
+				width: 500px;
+				padding: 5px;
+			}
+			.div_2 {
+				background-color: #00BFFF;
+				min-height: 150px;
+				width: 500px;
+				padding: 5px;
+			}
+			.div_3 {
+				background-color: #00BFFF;
+				min-height: 150px;
+				width: 500px;
+				padding: 5px;
+			}
+			.div_4 {
+				background-color: #00FF7F;
+				position: absolute;
+				top: 330px;
+				width: 300px;
+				height: 300px;
+				text-align: center;
+				font-size: 50px;
+				line-height: 1.5;
+				border: 5px solid red;
+			}
+			.div_5 {
+				background-color: #FFD700;
+				position: absolute;
+				top: 330px;
+				width: 300px;
+				height: 300px;
+				left: 350px;
+				text-align: center;
+				font-size: 50px;
+				border: 5px solid red;
+			}
+			.apples {
+				width: 400px;
+				position: absolute;
+				left: 700px;
+				top: -50px;
+			}
+			.milk {
+				width: 400px;
+				position: absolute;
+				left: 700px;
+				top: 150px;
+			}
+			.fish {
+				width: 400px;
+				position: absolute;
+				left: 700px;
+				top: 380px;
+			}
+			.avocado {
+				width: 400px;
+				position: absolute;
+				left: 700px;
+				top: 550px;
+			}
+			TABLE {
+				border: 1px solid black;
+			}
+			TD {
+				border: 1px solid black;
+				width: 100px;
+				height: 30px;
+				background-color: #87CEFA;
+				text-align: center;
+			}
+			H1 {
+				font-family: cursive;
+				color: green;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Ваше здоровое питание начинается здесь!</h1>
+		<button id='button_1' style='background-color: #008B8B'>Добавить продукт</button>
+		<button id='button_2'>Изменить количество продукта</button>
+		<button id='button_3'>Показать  корзину</button><br><br>
+		<img src='products/apples.jpg' class='apples'>
+		<img src='products/milk.jpg' class='milk'>
+		<img src='products/avocado.jpg' class='avocado'>
+		<img src='products/fish.jpg' class='fish'>
+		<div class='div_1' id='div_1'>
+			<form name='form_1'>
+				<label>Введите название продукта и его количество:</label><br>
+				<input name='name_1' type='text'>
+				<input name='quantity' type='number'>
+				<button id='button_4' onClick='add();'>Добавить</button>
+			</form>
+		</div>
+		<div class='div_2' id='div_2' style='display: none;'>
+			<form name='form_2'>
+				<label>Выберите продукт и введите его новое количество:</label><br>
+				<input name='name_2' type='text'>
+				<input name='new_quantity' type='number'>
+				<button id='button_5' onClick='change();'>Изменить</button>
+			</form>
+		</div>
+		<div class='div_3' id='div_3' style='display: none;'>
+		</div>
+		<div class='div_4' id='div_4'>
+			<p>В мае скидки до<br><span style='color: red'>30%</span>!</p>
+		</div>
+		<div class='div_5' id='div_5'>
+			<p>От 1000 р. доставка бесплатно!</p>
+		</div>
+
+		<script>
+			button_1 = document.getElementById('button_1');
+			button_2 = document.getElementById('button_2');
+			div_1 = document.getElementById('div_1');
+			div_2 = document.getElementById('div_2');
+			div_3 = document.getElementById('div_3');
+			div_4 = document.getElementById('div_4');
+			div_5 = document.getElementById('div_5');
+
+			button_1.onclick = function(){
+				div_1.style = 'display: block';
+				div_2.style = 'display: none';
+				div_3.style = 'display: none';
+				div_4.style = 'display: block';
+				div_5.style = 'display: block';
+				button_1.style = 'background-color: #008B8B';
+				button_2.style = 'background-color: #20B2AA';
+				button_3.style = 'background-color: #20B2AA';
+			}
+
+			button_2.onclick = function(){
+				div_2.style = 'display: block';
+				div_1.style = 'display: none';
+				div_3.style = 'display: none';
+				div_4.style = 'display: block';
+				div_5.style = 'display: block';
+				button_1.style = 'background-color: #20B2AA';
+				button_2.style = 'background-color: #008B8B';
+				button_3.style = 'background-color: #20B2AA';
+			}
+
+			button_3.onclick = function(){
+				div_1.style = 'display: none';
+				div_2.style = 'display: none';
+				div_4.style = 'display: none';
+				div_5.style = 'display: none';
+				button_1.style = 'background-color: #20B2AA';
+				button_2.style = 'background-color: #20B2AA';
+				button_3.style = 'background-color: #008B8B';
+
+				const body = {
+  					"transaction": [
+  						{
+    					"query": "SELECT * FROM FRUITS"
+  						}
+ 					]
+				};
+				var xhr = new XMLHttpRequest();
+				var url = "http://176.124.209.11:12321/testDb";
+				xhr.open("POST", url, true);
+				xhr.setRequestHeader("Content-Type", "application/json");
+				xhr.onreadystatechange = printResponse1;
+				xhr.send(JSON.stringify(body));
+				function printResponse1() {
+  					if (xhr.readyState === 4 && xhr.status === 200) {
+  						var json = JSON.parse(xhr.responseText);
+  						const list = json.results[0].resultSet;
+						let output = "<table>";
+						for(i = 0; i < list.length; i++){
+							output +="<tr><td>";
+							output += list[i].name;
+							output += "</td><td>";
+							output += list[i].number;
+							output += "</td></tr>";
+						}
+						output += "</table>";
+						div_3.innerHTML = output;
+						div_3.style = 'display: block';
+  					}
+  				}
+			}
+
+			function add(){
+				a = document.form_1.name_1.value;
+				n = Number(document.form_1.quantity.value);
+				//a = "rice";
+				//n = 200;
+				//alert(a);
+				//alert(n);
+				//alert(typeof a);
+				//alert(typeof n);
+				//const body_2 = {
+  				//	"transaction": [
+  				//		{
+    			//		"statement": "insert into FRUITS values('" + a + "', '" + n + "')"
+  				//		}
+ 				//	]
+				//};
+				//alert(body_2.transaction[0].statement);
+				//var xhr = new XMLHttpRequest();
+				//var url = "http://176.124.209.11:12321/testDb";
+				//xhr.open("POST", url, true);
+				//xhr.setRequestHeader("Content-Type", "application/json");
+				//alert('Hello');
+				//xhr.send(JSON.stringify(body_2));
+				//alert(xhr.readyState);
+				//alert(xhr.status);
+				alert('something');
+			// Формируем JSON с SQL-командой
+			const body_2 = {
+  				"transaction": [
+  					{
+    				"statement": "insert into FRUITS values('" + a + "', '" + n + "')"
+  					}
+ 				]
+			};
+			alert(body_2.transaction[0].statement);
+			// Делаем запрос
+			var xhr = new XMLHttpRequest();
+			var url = "http://176.124.209.11:12321/testDb";
+			xhr.open("POST", url, true);
+			xhr.setRequestHeader("Content-Type", "application/json");
+			// Указываем функцию, которая будет вызвана, когда будет получен ответ
+			xhr.onreadystatechange = printResponse_2;
+
+			xhr.send(JSON.stringify(body_2));
+			alert('Hello');
+
+			// Эта функция автоматически вызовется, когда получим ответ
+			function printResponse_2() {
+				//alert('ready');
+  				//if (xhr.readyState === 4 && xhr.status === 200) {
+  					//var json = JSON.parse(xhr.responseText);
+  					// и вот здесь формировать HTML ответа
+  					//d = document.getElementById("response");
+					//d.innerHTML = xhr.responseText;
+				//}
+			}
+			}
+			function change(){
+				a = document.form_2.name_2.value;
+				n = Number(document.form_2.new_quantity.value);
+				//a = "rice";
+				//n = 200;
+				//alert(a);
+				//alert(n);
+				//alert(typeof a);
+				//alert(typeof n);
+				//const body_2 = {
+  				//	"transaction": [
+  				//		{
+    			//		"statement": "insert into FRUITS values('" + a + "', '" + n + "')"
+  				//		}
+ 				//	]
+				//};
+				//alert(body_2.transaction[0].statement);
+				//var xhr = new XMLHttpRequest();
+				//var url = "http://176.124.209.11:12321/testDb";
+				//xhr.open("POST", url, true);
+				//xhr.setRequestHeader("Content-Type", "application/json");
+				//alert('Hello');
+				//xhr.send(JSON.stringify(body_2));
+				//alert(xhr.readyState);
+				//alert(xhr.status);
+				alert('something');
+			// Формируем JSON с SQL-командой
+			const body_3 = {
+  				"transaction": [
+  					{
+    				"statement": "UPDATE FRUITS SET number = '" + n + "' WHERE name = '" + a + "'"
+  					}
+ 				]
+			};
+			alert(body_3.transaction[0].statement);
+			// Делаем запрос
+			var xhr = new XMLHttpRequest();
+			var url = "http://176.124.209.11:12321/testDb";
+			xhr.open("POST", url, true);
+			xhr.setRequestHeader("Content-Type", "application/json");
+			// Указываем функцию, которая будет вызвана, когда будет получен ответ
+			xhr.onreadystatechange = printResponse_3;
+
+			xhr.send(JSON.stringify(body_3));
+			alert('Hello');
+
+			// Эта функция автоматически вызовется, когда получим ответ
+			function printResponse_3() {
+				//alert('ready');
+  				//if (xhr.readyState === 4 && xhr.status === 200) {
+  					//var json = JSON.parse(xhr.responseText);
+  					// и вот здесь формировать HTML ответа
+  					//d = document.getElementById("response");
+					//d.innerHTML = xhr.responseText;
+				//}
+			}
+			}
+		</script>
+	</body>
+</html>
